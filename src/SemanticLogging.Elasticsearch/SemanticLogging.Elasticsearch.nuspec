@@ -7,7 +7,7 @@
     <authors>Full Scale 180</authors>
     <owners>fullscale180; trentmswanson</owners>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
-    <projectUrl>http://slab.codeplex.com</projectUrl>
+    <projectUrl>https://github.com/fullscale180/slab-sinks</projectUrl>
     <iconUrl>http://nuget.org/Media/Default/Packages/Unity/2.0/entlib_new_icon_100x100.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <summary>The Semantic Logging Application Block provides a set of destinations to persist events published by a subclass of EventSource.</summary>
