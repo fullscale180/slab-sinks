@@ -61,11 +61,83 @@ namespace FullScale180.SemanticLogging.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Argument is empty.
+        /// </summary>
+        internal static string ArgumentIsEmptyError {
+            get {
+                return ResourceManager.GetString("ArgumentIsEmptyError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The size of &apos;{0}&apos; should be greater or equal to &apos;{1}&apos;..
+        /// </summary>
+        internal static string ArgumentNotGreaterOrEqualTo {
+            get {
+                return ResourceManager.GetString("ArgumentNotGreaterOrEqualTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The size of &apos;{0}&apos; should be lower or equal to &apos;{1}&apos;..
+        /// </summary>
+        internal static string ArgumentNotLowerOrEqualTo {
+            get {
+                return ResourceManager.GetString("ArgumentNotLowerOrEqualTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid arguments combination for buffering interval and count. Please specify valid range values for count and interval parameters..
+        /// </summary>
+        internal static string InvalidBufferingArguments {
+            get {
+                return ResourceManager.GetString("InvalidBufferingArguments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value does not represent a connection string.
+        /// </summary>
+        internal static string InvalidConnectionStringError {
+            get {
+                return ResourceManager.GetString("InvalidConnectionStringError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The date time format is invalid..
+        /// </summary>
+        internal static string InvalidDateTimeFormatError {
+            get {
+                return ResourceManager.GetString("InvalidDateTimeFormatError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The index name must not contain uppercase, whitespace, or any of the following characters \ /*?&quot;&lt;&gt;|.
         /// </summary>
         internal static string InvalidElasticsearchIndexNameError {
             get {
                 return ResourceManager.GetString("InvalidElasticsearchIndexNameError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A file name with a relative path is not allowed. Provide only the file name or the full path of the file..
+        /// </summary>
+        internal static string InvalidNavigationPathInFileNameError {
+            get {
+                return ResourceManager.GetString("InvalidNavigationPathInFileNameError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The valid range for &apos;{0}&apos; is from 0 to 24.20:31:23.647.
+        /// </summary>
+        internal static string TimeSpanOutOfRangeError {
+            get {
+                return ResourceManager.GetString("TimeSpanOutOfRangeError", resourceCulture);
             }
         }
     }

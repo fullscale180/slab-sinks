@@ -101,4 +101,28 @@
   <data name="InvalidElasticsearchIndexNameError" xml:space="preserve">
     <value>The index name must not contain uppercase, whitespace, or any of the following characters \ /*?"&lt;&gt;|</value>
   </data>
+  <data name="ArgumentIsEmptyError" xml:space="preserve">
+    <value>Argument is empty</value>
+  </data>
+  <data name="ArgumentNotGreaterOrEqualTo" xml:space="preserve">
+    <value>The size of '{0}' should be greater or equal to '{1}'.</value>
+  </data>
+  <data name="InvalidBufferingArguments" xml:space="preserve">
+    <value>Invalid arguments combination for buffering interval and count. Please specify valid range values for count and interval parameters.</value>
+  </data>
+  <data name="InvalidConnectionStringError" xml:space="preserve">
+    <value>The value does not represent a connection string</value>
+  </data>
+  <data name="InvalidDateTimeFormatError" xml:space="preserve">
+    <value>The date time format is invalid.</value>
+  </data>
+  <data name="InvalidNavigationPathInFileNameError" xml:space="preserve">
+    <value>A file name with a relative path is not allowed. Provide only the file name or the full path of the file.</value>
+  </data>
+  <data name="TimeSpanOutOfRangeError" xml:space="preserve">
+    <value>The valid range for '{0}' is from 0 to 24.20:31:23.647</value>
+  </data>
+  <data name="ArgumentNotLowerOrEqualTo" xml:space="preserve">
+    <value>The size of '{0}' should be lower or equal to '{1}'.</value>
+  </data>
 </root>
