@@ -23,7 +23,7 @@
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="src\bin\FullScale180.SemanticLogging.Elasticsearch.dll" target="lib\net45" />
-    <file src="src\bin\FullScale180.SemanticLogging.Elasticsearch.XML" target="lib\net45" />
+    <file src="..\bin\Release\FullScale180.SemanticLogging.Elasticsearch.dll" target="lib\net45" />
+    <file src="..\bin\Release\FullScale180.SemanticLogging.Elasticsearch.XML" target="lib\net45" />
   </files>
 </package>
