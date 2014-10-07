@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata schemaVersion="2">
     <id>EnterpriseLibrary.SemanticLogging.Elasticsearch</id>
-    <version>2.0.1410.1</version>
+    <version>2.0.1410.2</version>
     <title>Semantic Logging Application Block - Elasticsearch Sink</title>
     <authors>Full Scale 180</authors>
     <owners>fullscale180; trentmswanson</owners>
@@ -15,7 +15,7 @@
    <copyright>© 2014 FullScale 180 Inc</copyright>
    <tags>entlib entlib6 slab enterprise library ETW semantic logging EventSource event listener structured strongly-typed block sink elastic elasticsearch OSS</tags>
     <dependencies>
-      <dependency id="EnterpriseLibrary.SemanticLogging" version="2.0.1410.1" />
+      <dependency id="EnterpriseLibrary.SemanticLogging" version="2.0.1406.1" />
       <dependency id="Newtonsoft.Json" version="5.0.8" />
     </dependencies>
     <frameworkAssemblies>
