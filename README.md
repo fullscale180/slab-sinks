@@ -2,7 +2,7 @@ slab-sinks
 ==========
 This project contains Semantic Logging Application Block (SLAB) sinks to persist application events published to ETW and consumed by SLAB.
 
-#Sinks
+__Sinks__
 * Elasticsearch (Where else would you write events?)
 
 ##Elasticsearch Sink
