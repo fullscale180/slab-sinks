@@ -6,7 +6,7 @@ __Sinks__
 * Elasticsearch (Where else would you write events?)
 
 ##Elasticsearch Sink
-A sink to write [Semantic Logging Application Block (SLAB)](http://slab.codeplex.com) to [Elasticsearch](http://www.elasticsearch.org).
+A sink to write [Semantic Logging Application Block (SLAB)](http://slab.codeplex.com) events to [Elasticsearch](http://www.elasticsearch.org).
 
 ###0 Create an event source
 Create a class derived from [EventSource](http://msdn.microsoft.com/en-us/library/system.diagnostics.tracing.eventsource(v=vs.110).aspx)
