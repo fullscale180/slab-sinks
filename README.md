@@ -29,6 +29,6 @@ listener.EnableEvents(CommonEventSource.Log, EventLevel.LogAlways, ~EventKeyword
 listener.LogToElasticsearch(
     Environment.MachineName,
     "http://localhost:9200",
-    "wiserair",
-    "slab");
+    "slab",
+    "mylogs");
 ```
