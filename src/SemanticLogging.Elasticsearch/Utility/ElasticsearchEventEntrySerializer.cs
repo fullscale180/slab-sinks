@@ -76,6 +76,7 @@ namespace FullScale180.SemanticLogging.Utility
             WriteValue("ProviderName", entry.Schema.ProviderName);
             WriteValue("InstanceName", this.instanceName);
             WriteValue("Level", (int)entry.Schema.Level);
+            WriteValue("LevelName", entry.Schema.Level.ToString());
             WriteValue("Message", entry.FormattedMessage);
             WriteValue("Opcode", (int)entry.Schema.Opcode);
             WriteValue("Task", (int)entry.Schema.Task);
