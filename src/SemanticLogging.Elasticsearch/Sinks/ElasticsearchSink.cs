@@ -22,7 +22,7 @@ namespace FullScale180.SemanticLogging.Sinks
     /// </summary>
     public class ElasticsearchSink : IObserver<EventEntry>, IDisposable
     {
-        private const string BulkServiceOperationPath = "/_bulk";
+        private const string BulkServiceOperationPath = "_bulk";
 
         private readonly BufferedEventPublisher<EventEntry> bufferedPublisher;
         private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
