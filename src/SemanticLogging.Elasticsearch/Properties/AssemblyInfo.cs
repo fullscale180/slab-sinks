@@ -11,8 +11,8 @@ using System.Security;
 [assembly: SecurityTransparent]
 
 [assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.1410.2")]
-[assembly: AssemblyInformationalVersion("2.0.1410.2")]
+[assembly: AssemblyFileVersion("2.1.1415.1")]
+[assembly: AssemblyInformationalVersion("2.1.1415.1")]
 
 [assembly: ComVisible(false)]
 
