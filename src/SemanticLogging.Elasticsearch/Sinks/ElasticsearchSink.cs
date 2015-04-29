@@ -26,6 +26,7 @@ namespace FullScale180.SemanticLogging.Sinks
 
         private readonly BufferedEventPublisher<EventEntry> bufferedPublisher;
         private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        private readonly HttpClient client = new HttpClient();
 
         private readonly string index;
         private readonly string type;
@@ -154,12 +155,9 @@ namespace FullScale180.SemanticLogging.Sinks
 
         internal async Task<int> PublishEventsAsync(IList<EventEntry> collection)
         {
-            HttpClient client = null;
 
             try
             {
-                client = new HttpClient();
-
                 string logMessages;
                 using (var serializer = new ElasticsearchEventEntrySerializer(this.index, this.type, this.instanceName, this.flattenPayload))
                 {
