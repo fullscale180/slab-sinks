@@ -186,7 +186,7 @@ namespace FullScale180.SemanticLogging.Sinks.Tests
 
             var actual = new ElasticsearchEventEntrySerializer("logstash", "slab", "instance", true).Serialize(new[] { logObject });
             
-            // Make sure we can parse the payload
+            // Make sure the payload is still valid
             var obj = JObject.Parse(actual.Split('\n')[1]);
 
             Assert.IsNotNull(actual);
