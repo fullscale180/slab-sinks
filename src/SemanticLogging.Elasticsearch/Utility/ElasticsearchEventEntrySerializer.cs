@@ -122,8 +122,17 @@ namespace FullScale180.SemanticLogging.Utility
 
         private void WriteValue(string key, object valueObj)
         {
-            this.writer.WritePropertyName(key);
-            this.writer.WriteValue(valueObj);
+            if (key != "Payload__jsonPayload")
+            {
+                this.writer.WritePropertyName(key);
+                this.writer.WriteValue(valueObj);
+            }
+            else
+            {
+                //We are going to assume that the provider is passing valid json
+                this.writer.WritePropertyName("PayloadExt");
+                this.writer.WriteRawValue(valueObj.ToString());
+            }
         }
 
         private string GetIndexName(DateTime entryDateTime)

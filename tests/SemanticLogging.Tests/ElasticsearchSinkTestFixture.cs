@@ -10,6 +10,7 @@ using FullScale180.SemanticLogging.Sinks.Tests.TestSupport;
 using FullScale180.SemanticLogging.Utility;
 using Microsoft.Practices.EnterpriseLibrary.SemanticLogging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace FullScale180.SemanticLogging.Sinks.Tests
@@ -164,6 +165,30 @@ namespace FullScale180.SemanticLogging.Sinks.Tests
 
             Assert.IsTrue(jsonObject["Payload"]["msg"] != null);
             Assert.IsTrue(jsonObject["Payload"]["date"] != null);
+            Assert.IsNotNull(actual);
+            Assert.IsTrue(this.IsValidBulkMessage(actual));
+        }
+
+        [TestMethod]
+        public void when_serializing_a_log_with_jsonprops_entry_then_json_merged()
+        {
+            var payload = new Dictionary<string, object>
+            {
+                { "msg", "the message" },
+                { "date", DateTime.UtcNow },
+                { "_jsonPayload", "{\"test\": \"value\", \"test2\": \"value2\"}"}
+            };
+            var logObject =
+                EventEntryTestHelper.Create(
+                    timestamp: DateTimeOffset.UtcNow,
+                    payloadNames: payload.Keys,
+                    payload: payload.Values);
+
+            var actual = new ElasticsearchEventEntrySerializer("logstash", "slab", "instance", true).Serialize(new[] { logObject });
+            
+            // Make sure we can parse the payload
+            var obj = JObject.Parse(actual.Split('\n')[1]);
+
             Assert.IsNotNull(actual);
             Assert.IsTrue(this.IsValidBulkMessage(actual));
         }
