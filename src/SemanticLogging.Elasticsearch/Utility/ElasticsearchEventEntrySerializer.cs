@@ -20,15 +20,17 @@ namespace FullScale180.SemanticLogging.Utility
         private readonly string entryType;
         private readonly string instanceName;
         private readonly bool flattenPayload;
+        private readonly Dictionary<string, string> globalContextExtension;
 
         private JsonWriter writer;
 
-        internal ElasticsearchEventEntrySerializer(string indexName, string entryType, string instanceName, bool flattenPayload)
+        internal ElasticsearchEventEntrySerializer(string indexName, string entryType, string instanceName, bool flattenPayload, Dictionary<string, string> globalContextExtension = null )
         {
             this.indexName = indexName;
             this.entryType = entryType;
             this.instanceName = instanceName;
             this.flattenPayload = flattenPayload;
+            this.globalContextExtension = globalContextExtension;
         }
 
         internal string Serialize(IEnumerable<EventEntry> entries)
@@ -83,7 +85,7 @@ namespace FullScale180.SemanticLogging.Utility
             WriteValue("Version", entry.Schema.Version);
             WriteValue("ProcessId", entry.ProcessId);
             WriteValue("ThreadId", entry.ThreadId);
-
+            
             if (entry.ActivityId != Guid.Empty)
             {
                 WriteValue("ActivityId", entry.ActivityId);
@@ -94,13 +96,22 @@ namespace FullScale180.SemanticLogging.Utility
                 WriteValue("RelatedActivityId", entry.RelatedActivityId);
             }
 
+            //If we have a global context, write each property
+            if (this.globalContextExtension != null)
+            {
+                foreach (var pair in globalContextExtension)
+                {
+                    this.WriteValue("Context_" + pair.Key, pair.Value);
+                }
+            }
+
             //If we are not going to flatten the payload then write opening
             if (!flattenPayload)
             {
                 writer.WritePropertyName("Payload");
                 writer.WriteStartObject();
             }
-
+            
             foreach (var payload in entry.Schema.Payload.Zip(entry.Payload, Tuple.Create))
             {
                 this.WriteValue(
