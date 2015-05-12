@@ -36,6 +36,7 @@ namespace FullScale180.SemanticLogging.Sinks
 
         private readonly Uri elasticsearchUrl;
         private readonly TimeSpan onCompletedTimeout;
+        private readonly Dictionary<string, string> globalContextExtension;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ElasticsearchSink"/> class with the specified connection string and table address.
@@ -52,8 +53,9 @@ namespace FullScale180.SemanticLogging.Sinks
         /// This means that if the timeout period elapses, some event entries will be dropped and not sent to the store. Normally, calling <see cref="IDisposable.Dispose"/> on 
         /// the <see cref="System.Diagnostics.Tracing.EventListener"/> will block until all the entries are flushed or the interval elapses.
         /// If <see langword="null"/> is specified, then the call will block indefinitely until the flush operation finishes.</param>
+        /// <param name="globalContextExtension">A set of global environment parameters to be included in each log entry</param>
         public ElasticsearchSink(string instanceName, string connectionString, string index, string type, bool? flattenPayload, TimeSpan bufferInterval,
-            int bufferingCount, int maxBufferSize, TimeSpan onCompletedTimeout)
+            int bufferingCount, int maxBufferSize, TimeSpan onCompletedTimeout, Dictionary<string, string> globalContextExtension = null)
         {
             Guard.ArgumentNotNullOrEmpty(instanceName, "instanceName");
             Guard.ArgumentNotNullOrEmpty(connectionString, "connectionString");
@@ -77,6 +79,8 @@ namespace FullScale180.SemanticLogging.Sinks
             var sinkId = string.Format(CultureInfo.InvariantCulture, "ElasticsearchSink ({0})", instanceName);
             bufferedPublisher = BufferedEventPublisher<EventEntry>.CreateAndStart(sinkId, PublishEventsAsync, bufferInterval,
                 bufferingCount, maxBufferSize, cancellationTokenSource.Token);
+
+            this.globalContextExtension = globalContextExtension;
         }
 
         /// <summary>
@@ -159,7 +163,7 @@ namespace FullScale180.SemanticLogging.Sinks
             try
             {
                 string logMessages;
-                using (var serializer = new ElasticsearchEventEntrySerializer(this.index, this.type, this.instanceName, this.flattenPayload))
+                using (var serializer = new ElasticsearchEventEntrySerializer(this.index, this.type, this.instanceName, this.flattenPayload, this.globalContextExtension))
                 {
                     logMessages = serializer.Serialize(collection);
                 }

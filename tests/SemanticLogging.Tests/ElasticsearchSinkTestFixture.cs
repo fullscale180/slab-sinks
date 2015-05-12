@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Threading;
@@ -199,6 +200,29 @@ namespace FullScale180.SemanticLogging.Sinks.Tests
             // Note: converting an array does not create valid message for use in elasticsearch bulk operation
 
             var actual = new ElasticsearchEventEntrySerializer("logstash", "slab", "instance", true).Serialize(new[] { CreateEventEntry(), CreateEventEntry() });
+
+            Assert.IsNotNull(actual);
+            Assert.IsTrue(this.IsValidBulkMessage(actual));
+        }
+
+        [TestMethod]
+        public void when_serializing_with_global_context_then_object_can_serialize()
+        {
+            var ctx = new Dictionary<string, string>()
+            {
+                {"TestCtx1", "TestCtxValue1"},
+                {"TestCtx2", "TestCtxValue2"}
+            };
+            var payload = new Dictionary<string, object> { { "msg", "the message" }, { "date", DateTime.UtcNow } };
+            var logObject =
+                EventEntryTestHelper.Create(
+                    timestamp: DateTimeOffset.UtcNow,
+                    payloadNames: payload.Keys,
+                    payload: payload.Values);
+
+            var actual = new ElasticsearchEventEntrySerializer("logstash", "slab", "instance", true, ctx).Serialize(new[] { logObject });
+
+            Debug.WriteLine(actual);
 
             Assert.IsNotNull(actual);
             Assert.IsTrue(this.IsValidBulkMessage(actual));
