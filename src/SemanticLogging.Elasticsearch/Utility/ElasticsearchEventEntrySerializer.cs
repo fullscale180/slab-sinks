@@ -122,16 +122,20 @@ namespace FullScale180.SemanticLogging.Utility
 
         private void WriteValue(string key, object valueObj)
         {
-            if (key != "Payload__jsonPayload")
+            // If we are passing through serialized json property and it's not empty
+            if (key == "Payload__jsonPayload")
             {
-                this.writer.WritePropertyName(key);
-                this.writer.WriteValue(valueObj);
+                if (!string.IsNullOrEmpty(valueObj as string))
+                {
+                    //We are going to assume that the provider is passing valid json
+                    this.writer.WritePropertyName("PayloadExt");
+                    this.writer.WriteRawValue(valueObj.ToString());
+                }
             }
             else
             {
-                //We are going to assume that the provider is passing valid json
-                this.writer.WritePropertyName("PayloadExt");
-                this.writer.WriteRawValue(valueObj.ToString());
+                this.writer.WritePropertyName(key);
+                this.writer.WriteValue(valueObj);
             }
         }
 
