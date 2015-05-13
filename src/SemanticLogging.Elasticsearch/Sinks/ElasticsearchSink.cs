@@ -145,6 +145,7 @@ namespace FullScale180.SemanticLogging.Sinks
             {
                 cancellationTokenSource.Cancel();
                 bufferedPublisher.Dispose();
+                client.Dispose();
             }
         }
 
@@ -236,13 +237,6 @@ namespace FullScale180.SemanticLogging.Sinks
                 // Although this is generally considered an anti-pattern this is not logged upstream and we have context
                 SemanticLoggingEventSource.Log.CustomSinkUnhandledFault(ex.ToString());
                 throw;
-            }
-            finally
-            {
-                if (client != null)
-                {
-                    client.Dispose();
-                }
             }
         }
 
