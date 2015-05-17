@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Threading;
 using FullScale180.SemanticLogging.Sinks;
@@ -28,6 +29,7 @@ namespace FullScale180.SemanticLogging
         /// This means that if the timeout period elapses, some event entries will be dropped and not sent to the store. Normally, calling <see cref="IDisposable.Dispose" /> on
         /// the <see cref="System.Diagnostics.Tracing.EventListener" /> will block until all the entries are flushed or the interval elapses.
         /// If <see langword="null" /> is specified, then the call will block indefinitely until the flush operation finishes.</param>
+        /// <param name="globalContextExtension">A dictionary of user defined keys and values to be attached to each log.</param>
         /// <returns>
         /// A subscription to the sink that can be disposed to unsubscribe the sink and dispose it, or to get access to the sink instance.
         /// </returns>
@@ -35,13 +37,15 @@ namespace FullScale180.SemanticLogging
             string instanceName, string connectionString, string index, string type, bool flattenPayload = true, TimeSpan? bufferingInterval = null,
             TimeSpan? onCompletedTimeout = null,
             int bufferingCount = Buffering.DefaultBufferingCount,
-            int maxBufferSize = Buffering.DefaultMaxBufferSize)
+            int maxBufferSize = Buffering.DefaultMaxBufferSize,
+            Dictionary<string, string> globalContextExtension = null)
         {
             var sink = new ElasticsearchSink(instanceName, connectionString, index, type, flattenPayload,
                 bufferingInterval ?? Buffering.DefaultBufferingInterval,
                 bufferingCount,
                 maxBufferSize,
-                onCompletedTimeout ?? Timeout.InfiniteTimeSpan);
+                onCompletedTimeout ?? Timeout.InfiniteTimeSpan,
+                globalContextExtension);
 
             var subscription = eventStream.Subscribe(sink);
             return new SinkSubscription<ElasticsearchSink>(subscription, sink);
