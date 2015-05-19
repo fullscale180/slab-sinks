@@ -37,7 +37,8 @@ namespace FullScale180.SemanticLogging.Configuration
                 bufferInterval == null ? Buffering.DefaultBufferingInterval : bufferInterval.Value,
                 (int?)element.Attribute("bufferingCount") ?? Buffering.DefaultBufferingCount,
                 (int?)element.Attribute("maxBufferSize") ?? Buffering.DefaultMaxBufferSize,
-                element.Attribute("bufferingFlushAllTimeoutInSeconds").ToTimeSpan() ?? Constants.DefaultBufferingFlushAllTimeout);
+                element.Attribute("bufferingFlushAllTimeoutInSeconds").ToTimeSpan() ?? Constants.DefaultBufferingFlushAllTimeout,
+                (string)element.Attribute("jsonGlobalContextExtension"));
         }
     }
 }

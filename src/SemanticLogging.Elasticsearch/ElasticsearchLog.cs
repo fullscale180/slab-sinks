@@ -5,6 +5,7 @@ using System.Threading;
 using FullScale180.SemanticLogging.Sinks;
 using Microsoft.Practices.EnterpriseLibrary.SemanticLogging;
 using Microsoft.Practices.EnterpriseLibrary.SemanticLogging.Utility;
+using Newtonsoft.Json;
 
 namespace FullScale180.SemanticLogging
 {
@@ -38,19 +39,19 @@ namespace FullScale180.SemanticLogging
             TimeSpan? onCompletedTimeout = null,
             int bufferingCount = Buffering.DefaultBufferingCount,
             int maxBufferSize = Buffering.DefaultMaxBufferSize,
-            Dictionary<string, string> globalContextExtension = null)
+            Dictionary<string,string> globalContextExtension = null)
         {
             var sink = new ElasticsearchSink(instanceName, connectionString, index, type, flattenPayload,
                 bufferingInterval ?? Buffering.DefaultBufferingInterval,
                 bufferingCount,
                 maxBufferSize,
                 onCompletedTimeout ?? Timeout.InfiniteTimeSpan,
-                globalContextExtension);
+                JsonConvert.SerializeObject(globalContextExtension));
 
             var subscription = eventStream.Subscribe(sink);
             return new SinkSubscription<ElasticsearchSink>(subscription, sink);
         }
-
+        
         /// <summary>
         /// Creates an event listener that logs using a <see cref="ElasticsearchSink" />.
         /// </summary>
