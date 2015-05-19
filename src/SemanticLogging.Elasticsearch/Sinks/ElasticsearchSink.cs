@@ -13,6 +13,7 @@ using FullScale180.SemanticLogging.Utility;
 using Microsoft.Practices.EnterpriseLibrary.SemanticLogging;
 using Microsoft.Practices.EnterpriseLibrary.SemanticLogging.Sinks;
 using Microsoft.Practices.EnterpriseLibrary.SemanticLogging.Utility;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace FullScale180.SemanticLogging.Sinks
@@ -36,7 +37,7 @@ namespace FullScale180.SemanticLogging.Sinks
 
         private readonly Uri elasticsearchUrl;
         private readonly TimeSpan onCompletedTimeout;
-        private readonly Dictionary<string, string> globalContextExtension;
+        private readonly Dictionary<string, string> _jsonGlobalContextExtension;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ElasticsearchSink"/> class with the specified connection string and table address.
@@ -53,9 +54,9 @@ namespace FullScale180.SemanticLogging.Sinks
         /// This means that if the timeout period elapses, some event entries will be dropped and not sent to the store. Normally, calling <see cref="IDisposable.Dispose"/> on 
         /// the <see cref="System.Diagnostics.Tracing.EventListener"/> will block until all the entries are flushed or the interval elapses.
         /// If <see langword="null"/> is specified, then the call will block indefinitely until the flush operation finishes.</param>
-        /// <param name="globalContextExtension">A set of global environment parameters to be included in each log entry</param>
+        /// <param name="jsonGlobalContextExtension">A json encoded key/value set of global environment parameters to be included in each log entry</param>
         public ElasticsearchSink(string instanceName, string connectionString, string index, string type, bool? flattenPayload, TimeSpan bufferInterval,
-            int bufferingCount, int maxBufferSize, TimeSpan onCompletedTimeout, Dictionary<string, string> globalContextExtension = null)
+            int bufferingCount, int maxBufferSize, TimeSpan onCompletedTimeout, string jsonGlobalContextExtension = null)
         {
             Guard.ArgumentNotNullOrEmpty(instanceName, "instanceName");
             Guard.ArgumentNotNullOrEmpty(connectionString, "connectionString");
@@ -80,7 +81,7 @@ namespace FullScale180.SemanticLogging.Sinks
             bufferedPublisher = BufferedEventPublisher<EventEntry>.CreateAndStart(sinkId, PublishEventsAsync, bufferInterval,
                 bufferingCount, maxBufferSize, cancellationTokenSource.Token);
 
-            this.globalContextExtension = globalContextExtension;
+            this._jsonGlobalContextExtension = !string.IsNullOrEmpty(jsonGlobalContextExtension)? JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonGlobalContextExtension): null;
         }
 
         /// <summary>
@@ -164,7 +165,7 @@ namespace FullScale180.SemanticLogging.Sinks
             try
             {
                 string logMessages;
-                using (var serializer = new ElasticsearchEventEntrySerializer(this.index, this.type, this.instanceName, this.flattenPayload, this.globalContextExtension))
+                using (var serializer = new ElasticsearchEventEntrySerializer(this.index, this.type, this.instanceName, this.flattenPayload, this._jsonGlobalContextExtension))
                 {
                     logMessages = serializer.Serialize(collection);
                 }
