@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata schemaVersion="2">
     <id>EnterpriseLibrary.SemanticLogging.Elasticsearch</id>
-    <version>2.2.4</version>
+    <version>2.2.5</version>
     <title>Semantic Logging Application Block - Elasticsearch Sink</title>
     <authors>Full Scale 180</authors>
     <owners>fullscale180; trentmswanson</owners>
