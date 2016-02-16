@@ -15,6 +15,7 @@ using Microsoft.Practices.EnterpriseLibrary.SemanticLogging.Sinks;
 using Microsoft.Practices.EnterpriseLibrary.SemanticLogging.Utility;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Text;
 
 namespace FullScale180.SemanticLogging.Sinks
 {
@@ -171,6 +172,13 @@ namespace FullScale180.SemanticLogging.Sinks
                 }
                 var content = new StringContent(logMessages);
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                // AndMed: Logic to handle Basic auth of Elasticsearch
+                string userInfo = Uri.UnescapeDataString(this.elasticsearchUrl.UserInfo);
+                if (!string.IsNullOrEmpty(userInfo))
+                {
+                    client.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(userInfo)));
+                }
 
                 var response = await client.PostAsync(this.elasticsearchUrl, content, cancellationTokenSource.Token).ConfigureAwait(false);
 
