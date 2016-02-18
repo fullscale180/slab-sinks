@@ -76,6 +76,14 @@ namespace FullScale180.SemanticLogging.Sinks
             this.instanceName = instanceName;
             this.flattenPayload = flattenPayload ?? true;
             this.elasticsearchUrl = new Uri(new Uri(connectionString), BulkServiceOperationPath);
+
+            // AndMed: Logic to handle Basic auth of Elasticsearch
+            string userInfo = Uri.UnescapeDataString(this.elasticsearchUrl.UserInfo);
+            if (!string.IsNullOrEmpty(userInfo))
+            {
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(userInfo)));
+            }
+
             this.index = index;
             this.type = type;
             var sinkId = string.Format(CultureInfo.InvariantCulture, "ElasticsearchSink ({0})", instanceName);
@@ -172,13 +180,6 @@ namespace FullScale180.SemanticLogging.Sinks
                 }
                 var content = new StringContent(logMessages);
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-                // AndMed: Logic to handle Basic auth of Elasticsearch
-                string userInfo = Uri.UnescapeDataString(this.elasticsearchUrl.UserInfo);
-                if (!string.IsNullOrEmpty(userInfo))
-                {
-                    client.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(userInfo)));
-                }
 
                 var response = await client.PostAsync(this.elasticsearchUrl, content, cancellationTokenSource.Token).ConfigureAwait(false);
 
