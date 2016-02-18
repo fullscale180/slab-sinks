@@ -15,6 +15,7 @@ using Microsoft.Practices.EnterpriseLibrary.SemanticLogging.Sinks;
 using Microsoft.Practices.EnterpriseLibrary.SemanticLogging.Utility;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Text;
 
 namespace FullScale180.SemanticLogging.Sinks
 {
@@ -75,6 +76,14 @@ namespace FullScale180.SemanticLogging.Sinks
             this.instanceName = instanceName;
             this.flattenPayload = flattenPayload ?? true;
             this.elasticsearchUrl = new Uri(new Uri(connectionString), BulkServiceOperationPath);
+
+            // AndMed: Logic to handle Basic auth of Elasticsearch
+            string userInfo = Uri.UnescapeDataString(this.elasticsearchUrl.UserInfo);
+            if (!string.IsNullOrEmpty(userInfo))
+            {
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(userInfo)));
+            }
+
             this.index = index;
             this.type = type;
             var sinkId = string.Format(CultureInfo.InvariantCulture, "ElasticsearchSink ({0})", instanceName);
